@@ -36,7 +36,7 @@
 pip install snap-analog
 
 # Or install from source
-git clone https://github.com/batuhannerkoc/log-analyzer.git
+git clone https://github.com/batuhannerkoc/snap-analog.git
 cd log-analyzer
 pip install .
 
