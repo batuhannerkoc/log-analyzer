@@ -8,12 +8,10 @@ from datetime import datetime, timedelta
 import time
 import platform
 import random
-import shutil # Terminal boyutunu almak için eklendi
+import shutil 
 
-# psutil ve traceback sadece gerektiğinde içe aktarılır.
 
 class Color:
-    """CLI çıktısı için renk ve stil kodları (ANSI)."""
     PURPLE = '\033[95m'
     GREEN = '\033[92m'
     RED = '\033[91m'
@@ -22,36 +20,25 @@ class Color:
     BOLD = '\033[1m'
     END = '\033[0m'
 
-# Yardımcı print fonksiyonları
 def print_success(msg):
-    """Başarı mesajını yeşil renkte basar."""
     print(f"{Color.GREEN}✓ {msg}{Color.END}")
 
 def print_error(msg):
-    """Hata mesajını kırmızı renkte basar."""
     print(f"{Color.RED}✗ {msg}{Color.END}")
 
 def print_warning(msg):
-    """Uyarı mesajını sarı renkte basar."""
     print(f"{Color.YELLOW}⚠ {msg}{Color.END}")
 
 def print_info(msg):
-    """Bilgi mesajını yeşil renkte basar."""
     print(f"{Color.GREEN}ℹ {msg}{Color.END}")
 
 def print_header(is_welcome = False):
-    """
-    Özel stilize edilmiş başlığı/karşılama ekranını basar.
-    Terminal genişliğine dinamik olarak uyum sağlar.
-    """
-    # Dinamik Terminal Boyutu: Minimum 70 genişlik garantilenir
     try:
         WIDTH = max(70, shutil.get_terminal_size().columns)
     except OSError:
-        WIDTH = 70 # Terminal boyutu alınamazsa varsayılan
+        WIDTH = 70
 
     
-    # Başlık içeriğini ekrana göre ayarla
     if is_welcome:
         main_title = "LOG ANALYSIS SYSTEM"
         version_line = "v2.0 - Developed by batuhannerkoc"
@@ -61,33 +48,27 @@ def print_header(is_welcome = False):
         version_line = "made by batuhannerkoc"
         time_line = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
-    # Metinleri ortala
     title_line = main_title.center(WIDTH - 4)
     author_line = version_line.center(WIDTH - 4)
     time_line_centered = time_line.center(WIDTH - 4)
     
     separator = f"{Color.PURPLE}{Color.BOLD}{'*' * WIDTH}{Color.END}"
     
-    # Çerçeve
     print(f"\n{separator}")
     
-    # Karşılama ekranında ekstra mor çerçeve çizgileri
     if is_welcome:
         print(f"{Color.PURPLE}{Color.BOLD}*{' ' * (WIDTH - 2)}*{Color.END}")
         
-    # İçerik
     print(f"{Color.PURPLE}{Color.BOLD}*{Color.END}{Color.GREEN}{Color.BOLD}{title_line}{Color.END}{Color.PURPLE}{Color.BOLD}*{Color.END}")
     print(f"{Color.PURPLE}{Color.BOLD}*{Color.END}{Color.GREEN}{Color.BOLD}{author_line}{Color.END}{Color.PURPLE}{Color.BOLD}*{Color.END}")
     print(f"{Color.PURPLE}{Color.BOLD}*{Color.END}{Color.GREEN}{time_line_centered}{Color.END}{Color.PURPLE}{Color.BOLD}*{Color.END}")
     
-    # Kapatma ve Alt Çizgi
     if is_welcome:
         print(f"{Color.PURPLE}{Color.BOLD}*{' ' * (WIDTH - 2)}*{Color.END}")
         
     print(f"{separator}\n")
 
 def simple_progress_bar(iteration, total, prefix = '', length = 30):
-    """Tek satırlık basit ilerleme çubuğunu basar."""
     if total > 0:
         percent = ("{0:.1f}").format(100 * (iteration / float(total)))
         filled_length = int(length * iteration // total)
@@ -101,18 +82,15 @@ def simple_progress_bar(iteration, total, prefix = '', length = 30):
             sys.stdout.flush()
 
 def progress_callback_wrapper():
-    """simple_progress_bar için debounce mantığı eklenmiş sarmalayıcı."""
     last_update = 0
     def callback(current, total):
         nonlocal last_update
-        # Her 0.3 saniyede bir veya total'e ulaşıldığında güncelle
         if time.time() - last_update > 0.3 or current == total:
             simple_progress_bar(current, total, prefix = f"{Color.PURPLE}Processing{Color.END}")
             last_update = time.time()
     return callback
 
 def generate_test_log(filename, num_lines, format_type = 'apache'):
-    """Test amaçlı rastgele log satırları oluşturur."""
     methods = ['GET', 'POST', 'PUT', 'DELETE']
     statuses = ['200', '404', '500', '301', '400', '403']
     paths = ['/', '/index.html', '/api/users', '/api/data', '/admin', '/login', '/products', '/cart']
@@ -181,7 +159,6 @@ def main():
     
     subparsers = parser.add_subparsers(dest = 'command', help = 'Commands')
     
-    # analyze komutu (Renk eklendi)
     analyze_parser = subparsers.add_parser(
         'analyze', 
         help = f'{Color.GREEN}Analyze log file{Color.END}'
@@ -193,7 +170,6 @@ def main():
     analyze_parser.add_argument('--quiet', action = 'store_true', help = 'Suppress progress output')
     analyze_parser.add_argument('--validate', action = 'store_true', help = 'Enable strict validation')
     
-    # visualize komutu (Renk eklendi)
     visualize_parser = subparsers.add_parser(
         'visualize', 
         help = f'{Color.GREEN}Visualize JSON report{Color.END}'
@@ -207,7 +183,6 @@ def main():
     visualize_parser.add_argument('--output-dir', default = 'reports')
     visualize_parser.add_argument('--title', help = 'Custom dashboard title')
     
-    # generate-test komutu (Renk eklendi)
     generate_parser = subparsers.add_parser(
         'generate-test', 
         help = f'{Color.YELLOW}Generate test log file{Color.END}'
@@ -217,7 +192,6 @@ def main():
     generate_parser.add_argument('--format', choices = ['apache', 'nginx', 'json', 'syslog'], default = 'apache')
     generate_parser.add_argument('--overwrite', action = 'store_true')
     
-    # info komutu (Renk eklendi)
     subparsers.add_parser(
         'info', 
         help = f'{Color.BLUE}Show system information{Color.END}'
@@ -226,12 +200,10 @@ def main():
     args = parser.parse_args()
     
     if not args.command:
-        # Karşılama Ekranı (Dinamik Genişlikli) + Yardım Menüsü
         print_header(is_welcome = True)
         parser.print_help()
         sys.exit(0)
     else:
-        # Komut Başlığı (Dinamik Genişlikli)
         print_header(is_welcome = False)
     
     try:

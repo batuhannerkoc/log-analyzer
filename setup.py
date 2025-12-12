@@ -1,17 +1,30 @@
 from setuptools import setup, find_packages
+import os
+
+try:
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "README.md"), "r", encoding="utf-8") as fh:
+        long_description = fh.read()
+except FileNotFoundError:
+    long_description = "High-performance log analysis and visualization toolkit"
 
 setup(
     name="snap-analog",
     version="2.0",
     author="Batuhan Erkoc",
     description="High-performance log analysis and visualization toolkit",
-    packages=find_packages(where="src"),  # src altındaki tüm paketleri bul
-    package_dir={"": "src"},               # src klasörü baz alınıyor
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/Batuhan-Erkoc/snap-analog",
+    
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
+    
     entry_points={
         "console_scripts": [
-            "snap-analog=cli:main",       # cli.py içindeki main fonksiyonunu çağırır
+            "snap-analog=cli:main",
         ],
     },
+    
     python_requires=">=3.8",
     install_requires=[
         "pandas>=1.5",
@@ -20,10 +33,16 @@ setup(
         "ipaddress",
         "psutil",
     ],
+    
     classifiers=[
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
+        "Topic :: System :: Monitoring",
+        "Topic :: Utilities",
     ],
 )
-
