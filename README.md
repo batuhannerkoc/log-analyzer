@@ -10,6 +10,18 @@
 
 **snap-analog** is a powerful command-line toolkit for parsing, analyzing, optimizing, and visualizing large-scale Apache log files. It generates both beautiful visual dashboards and structured JSON datasets, making it perfect for DevOps monitoring, security analysis, and data analytics pipelines.
 
+📑 Quick Links
+⚡ Quick Start •
+🚀 Features •
+🎯 Use Cases •
+📦 Installation •
+🧪 Usage •
+📊 JSON Output •
+🧪 Tests •
+💡 Performance •
+🤝 Contributing •
+📜 License
+
 ---
 
 ## ⚡ Quick Start
