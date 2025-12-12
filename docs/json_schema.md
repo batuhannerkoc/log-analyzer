@@ -1,20 +1,3 @@
-{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "snap-analog Log Analysis Output",
-  "type": "object",
-
-  "properties": {
-    "summary": {
-      "type": "object",
-      "properties": {
-        "total_lines": { "type": "integer", "minimum": 0 },
-        "total_requests": { "type": "integer", "minimum": 0 },
-        "memory_mode": { "type": "string" },
-        "file": { "type": "string" },
-        "processing_time": { "type": "number", "minimum": 0 }
-      },
-      "required": ["total_lines", "total_requests", "memory_mode", "file"]
-    },
 
     "health_metrics": {
       "type": "object",
@@ -113,14 +96,5 @@
       "type": "number",
       "minimum": 0
     }
-  },
-
-  "required": [
-    "summary",
-    "health_metrics",
-    "traffic_analysis",
-    "memory_optimization",
-    "elapsed_time"
-  ]
-}
+  }
 
