@@ -9,22 +9,22 @@ except FileNotFoundError:
 
 setup(
     name="snap-analog",
-    version="2.0",
+    version="2.1",
     author="Batuhan Erkoc",
     description="High-performance log analysis and visualization toolkit",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Batuhan-Erkoc/snap-analog",
-    
+    url="https://github.com/batuhannerkoc/snap-analog",
+
     packages=find_packages(where="src"),
     package_dir={"": "src"},
-    
+
     entry_points={
         "console_scripts": [
-            "snap-analog=cli:main",
+            "snap-analog = snap_analog.cli:main",
         ],
     },
-    
+
     python_requires=">=3.8",
     install_requires=[
         "pandas>=1.5",
@@ -33,7 +33,7 @@ setup(
         "ipaddress",
         "psutil",
     ],
-    
+
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
